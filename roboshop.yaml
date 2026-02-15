@@ -1,7 +1,6 @@
 - name : roboshop
   hosts: all
   connection : local
-  become : yes
   vars: 
    sg_id: "sgr-0e99394019f292c77"
    ami_id: "ami-0220d79f3f480ecf5"
