@@ -1,6 +1,6 @@
 - name : roboshop
-  hosts: web
-  connection : web
+  hosts: local
+  connection : local
   become : yes
   vars: 
    sg_id: "sgr-0e99394019f292c77"
@@ -8,18 +8,18 @@
    instances :
      - Mongodb
      - catalouge
-   environment: dev
+   env: dev
   tasks: 
     - name : create instances
       amazon.aws.ec2_instance:
         instance_type : "t3.micro"
         security_group: "{{ sg_id }}" 
         image_id: "{{ ami_id }}"
-        name : "{{item}} - {{ environment }}" 
+        name : "{{item}} - {{ env }}" 
         tags: 
-          Name : "{{item}} - {{ environment }}"
+          Name : "{{item}} - {{ env }}"
           Project : roboshop
-          Environment : "{{environment}}"
+          Environment : "{{env}}"
       loop : "{{instances}}"
       register : ec2_output
 
