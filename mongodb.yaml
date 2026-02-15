@@ -1,6 +1,5 @@
 - name : configure Mongodb
-  hosts: mongodb 
-  connection: mongodb 
+  hosts: mongodb  
   become : yes
   tasks: 
     - name: copy mongodb rep
