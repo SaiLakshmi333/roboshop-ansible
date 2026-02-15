@@ -6,16 +6,16 @@
 
     - name : install nodejs
       ansible.builtin.dnf:
-      name : nodejs
-      state : present
+       name : nodejs
+       state : present
 
     - name : useradd
       ansible.builtin.user:
-      name : roboshop 
-      system : true
-      home : /app
-      shell : /sbin/nologin
-      comment : "roboshop system user"
+       name : roboshop 
+       system : true
+       home : /app
+       shell : /sbin/nologin
+       comment : "roboshop system user"
 
     - name : make directory
       ansible.builtin.file: 
