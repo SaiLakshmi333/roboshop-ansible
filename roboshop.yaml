@@ -1,5 +1,5 @@
 - name : roboshop
-  hosts: local
+  hosts: all
   connection : local
   become : yes
   vars: 
