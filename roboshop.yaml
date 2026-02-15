@@ -1,6 +1,6 @@
 - name : roboshop
-  hosts: local
-  connection : local
+  hosts: web
+  connection : web
   become : yes
   vars: 
    sg_id: "sgr-0e99394019f292c77"
