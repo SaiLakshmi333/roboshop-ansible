@@ -10,7 +10,7 @@
       - catalouge
       - cart 
     env: dev
-    tasks: 
+  tasks: 
       - name : Create ec2 instances
         amazon.aws.ec2_instance:
           instance_type: "t3.micro"
