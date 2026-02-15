@@ -19,10 +19,14 @@
           name: "{{item}}-{{env}}"
           tags:
              Name: "{{item}}-{{env}}"
-             project: "Roboshop"
+             project: Roboshop
              Environment: "{{env}}"
           loop: "{{instances}}"
           register: ec2_output
+
+      -  name: print the ec2_output
+         ansible.builtin.debug:
+            msg: "{{ec2_output}}"
 
       - name: Create route 53 records
         amazon.aws.route53:
