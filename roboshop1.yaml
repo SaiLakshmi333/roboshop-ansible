@@ -21,8 +21,8 @@
              Name: "{{item}}-{{env}}"
              project: Roboshop
              Environment: "{{env}}"
-          loop: "{{instances}}"
-          register: ec2_output
+        loop: "{{instances}}"
+        register: ec2_output
 
       -  name: print the ec2_output
          ansible.builtin.debug:
