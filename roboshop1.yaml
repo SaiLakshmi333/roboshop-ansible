@@ -1,0 +1,39 @@
+- name: create instances
+  hosts: local
+  connection : local
+  vars: 
+    sg_id: "sg-0b4c1bffcd0783883"
+    ami_id : "ami-0220d79f3f480ecf5"
+    domainname: "devopswithsai.online"
+    instances:
+      - Mongodb
+      - catalouge
+      - cart 
+    env: dev
+    tasks: 
+      - name : Create ec2 instances
+        amazon.aws.ec2_instance:
+          instance_type: "t3.micro"
+          image_id: "{{ami_id}}"
+          security_group: "{{sg_id}}"
+          name: "{{item}}-{{env}}"
+          tags:
+             Name: "{{item}}-{{env}}"
+             project: "Roboshop"
+             Environment: "{{env}}"
+          loop: "{{instances}}"
+          register: ec2_output
+
+      - name: Create route 53 records
+        amazon.aws.route53:
+          state: present
+          zone: "{{domainname}}"
+          record: "{{item.item}}-{{env}}.{{domainname}}"
+          type: A
+          ttl: 1
+          value: "{{item.instances[0].private_ip_address}}"
+          wait : true
+        loop: "{{ec2_ouput.results}}"
+          
+
+     
