@@ -8,6 +8,7 @@
      - Mongodb
      - catalouge
    env: dev
+   domainname: "devopswithsai.online"
   tasks: 
     - name : create instances
       amazon.aws.ec2_instance:
@@ -25,4 +26,15 @@
     - name : print the ec2_output
       ansible.builtin.debug:
         msg: "{{ec2_output}}"
+
+    - name: create route 53 records
+      amazon.aws.route53:
+        state : present
+        zone: "{{domainname}}"
+        record: "{{item.ietm}}-{{env}}-{{domainname}}"
+        type: A 
+        ttl : 1
+        value: "{{item.instances[0].private_ip_address}}"
+        wait: true
+      loop: "{{ec2_output.results}}"
      
