@@ -8,6 +8,7 @@
      - Mongodb
      - catalouge
    env: dev
+   action : create
    domainname: "devopswithsai.online"
   tasks: 
     - name : create instances
@@ -22,11 +23,11 @@
           Environment : "{{env}}"
       loop : "{{instances}}"
       register : ec2_output
-
+      when : action == create
     - name : print the ec2_output
       ansible.builtin.debug:
         msg: "{{ec2_output}}"
-
+      when : action == create
     - name: create route 53 records
       amazon.aws.route53:
         state : present
@@ -37,4 +38,23 @@
         value: "{{item.instances[0].private_ip_address}}"
         wait: true
       loop: "{{ec2_output.results}}"
-     
+      when : action == create
+
+    - name: create route 53 records
+      amazon.aws.route53:
+        state : present
+        zone: "{{domainname}}"
+        record: "Roboshop-{{env}}.{{domainname}}"
+        type: A 
+        ttl : 1
+        value: "{{item.instances[0].public_ip_address}}"
+        wait: true
+      loop: "{{ec2_output.results}}"
+      when :
+       - action == create
+       - item.item == frontend
+    - name :  delete ec2_instance
+      amazon.aws.ec2_instance:
+        state : absent
+        name : "{{item}}-{{env}}"
+      loop: "{{instances}}"
