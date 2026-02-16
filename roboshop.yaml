@@ -29,7 +29,7 @@
       ansible.builtin.debug:
         msg: "{{ec2_output}}"
         when : action == "create"
-      wait: false
+        wait: false
     - name: create route 53 records
       amazon.aws.route53:
         state : present
