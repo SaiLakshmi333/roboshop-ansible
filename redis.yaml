@@ -14,7 +14,7 @@
         state : present
 
    - name: copy the redis config file
-     community.general.copy:
+     cansible.builtin.copy:
         src : redis.conf 
         dest : /etc/redis/redis.conf
 
