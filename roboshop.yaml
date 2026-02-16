@@ -12,6 +12,7 @@
    action : create
    domainname: "devopswithsai.online"
   tasks: 
+
     - name : create instances
       amazon.aws.ec2_instance:
         instance_type : "t3.micro"
@@ -28,8 +29,9 @@
     - name : print the ec2_output
       ansible.builtin.debug:
         msg: "{{ec2_output}}"
-        when : action == "create"
-        wait: false
+      when : action == "create"
+       
+
     - name: create route 53 records
       amazon.aws.route53:
         state : present
@@ -55,6 +57,7 @@
       when :
        - action == create
        - item.item == frontend
+
     - name :  delete ec2_instance
       amazon.aws.ec2_instance:
         state : absent
