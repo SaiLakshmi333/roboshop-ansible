@@ -63,7 +63,7 @@
 
     - name: enable and restart the user
       ansible.builtin.service:
-         state : restarted
+         state : started
          enabled: yes
 
 
