@@ -59,10 +59,10 @@
 
     - name: pront the catalouge_output
       ansible.builtin.debug:
-        msg: "{{catalouge_output}}"
+        msg: "{{catalogue_output}}"
 
     - name : load the products
       ansible.builtin.command: mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
-      when: catalogue_output.stdout < 0
+      when: catalogue_output.stdout | int < 0
 
   
