@@ -52,7 +52,7 @@
         path : /app
 
     - name : copy the cart service
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src : cart.service
         dest : /etc/systemd/system
 
