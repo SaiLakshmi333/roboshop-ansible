@@ -1,0 +1,54 @@
+- name : configure user
+  hosts: user
+  become : yes
+  tasks:
+    - name : disable nodejs
+      ansible.builtin.command: dnf module disable nodejs -y
+
+    - name: enable nodejs
+      ansible.builtin.command: dnf module enable nodejs:20 -y
+
+    - name: install nodejs
+      ansible.builtin.dnf: 
+          name: nodejs
+          state : present
+
+    - name: add user
+      ansible.builtin.user:
+         name : roboshop 
+         system : true
+         home: /app
+         shell: /sbin/nologin
+         comment : "roboshop system user" 
+
+    - name: make directory
+      ansible.builtin.file:
+         name: /app
+         state: directory
+
+    - name: download the code
+      ansible.builtin.get_curl:
+        url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+        dest : /tmp/user.zip
+
+    - name: npm install
+      community.general.npm:
+        path : /app
+
+    - name : copy the user service
+      ansible.builtin.copy:
+        src : user.service
+        dest : /etc/systemd/system
+
+    - name: deamon reload
+      ansible.builtin.systemd:
+        deamon_reload : yes
+        become : true
+
+    - name: enable and restart the user
+      ansible.builtin.service:
+         state : restarted
+         enabled: yes
+
+
+         
