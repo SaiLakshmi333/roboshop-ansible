@@ -1,4 +1,4 @@
-- name : catalouge
+- name : configure catalouge
   hosts: catalouge
   become: yes
   tasks :
@@ -32,3 +32,25 @@
       ansible.builtin.unarchive:
         src : /tmp/catalogue.zip
         dest: /app
+
+    - name : download dependencies
+      community.general.npm:
+        path: /app
+        
+    - name : copy the catalogue service
+      ansible.builtin.copy:
+        src: catalogue.service
+        dest: /etc/systemd/system/catalogue.service
+
+    - name : install mongodb client
+      ansible.builtin.dnf:
+        name : mongodb-mongosh
+        state : present
+
+    - name: check the products loaded or not
+      ansible.builtin.command: mongosh --host "{{mongodb_host}}" --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+      register: catalouge_output
+
+    - name: pront the catalouge_output
+      ansible.builtin.debug:
+        msg: "{{catalouge_output}}"

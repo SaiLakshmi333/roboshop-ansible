@@ -7,7 +7,7 @@
     domainname: "devopswithsai.online"
     instances:
       - Mongodb
-      - catalouge
+      - catalogue
       - cart 
     env: dev
   tasks: 

@@ -1,3 +1,4 @@
+#ansible-playbok -i localhost, -e '{"instances":["mongodb","catalogue","cart","redis","mysql","rabbitmq","user","shipping","payment","frontend"]}' roboshop.yaml
 - name : roboshop
   hosts: all
   connection : local
@@ -27,7 +28,8 @@
     - name : print the ec2_output
       ansible.builtin.debug:
         msg: "{{ec2_output}}"
-      when : action == create
+      when : action == "create"
+      wait: false
     - name: create route 53 records
       amazon.aws.route53:
         state : present
@@ -36,9 +38,9 @@
         type: A 
         ttl : 1
         value: "{{item.instances[0].private_ip_address}}"
-        wait: true
+        wait: false
       loop: "{{ec2_output.results}}"
-      when : action == create
+      when : action == "create"
 
     - name: create route 53 records
       amazon.aws.route53:
@@ -48,7 +50,7 @@
         type: A 
         ttl : 1
         value: "{{item.instances[0].public_ip_address}}"
-        wait: true
+        wait: false
       loop: "{{ec2_output.results}}"
       when :
        - action == create
@@ -58,3 +60,5 @@
         state : absent
         name : "{{item}}-{{env}}"
       loop: "{{instances}}"
+      when: action == "destroy"
+      wait: false
