@@ -9,7 +9,7 @@
      - Mongodb
      - catalouge
    env: dev
-   action : create
+   action : "create"
    domainname: "devopswithsai.online"
   tasks: 
 
