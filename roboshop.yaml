@@ -1,4 +1,4 @@
-#ansible-playbok -i localhost, -e '{"instances":["mongodb","catalogue","cart","redis","mysql","rabbitmq","user","shipping","payment","frontend"]}' roboshop.yaml
+#ansible-playbook -i localhost, -e '{"instances":["mongodb","catalogue","cart","redis","mysql","rabbitmq","user","shipping","payment","frontend"]}' roboshop.yaml
 - name : roboshop
   hosts: all
   connection : local
@@ -41,6 +41,7 @@
         ttl : 1
         value: "{{item.instances[0].private_ip_address}}"
         wait: false
+        overwrite: true
       loop: "{{ec2_output.results}}"
       when : action == "create"
 
