@@ -1,5 +1,6 @@
 - name : configure rabbitmq
   hosts: rabbitmq
+  become: yes
   tasks: 
     - name: copy the rabbitmq repo
       ansible.builtin.template:
@@ -16,9 +17,15 @@
         state : restarted
         enabled : yes
 
-    - name: useradd 
-      ansible.builtin.user:
-        name : 
+    - name: useradd in rabbitmq
+      community.rabbitmq.rabbitmq_user:
+        user: roboshop
+        password: "roboshop123" # Consider using Ansible Vault for sensitive data
+        vhost: /
+        configure_priv: .*
+        read_priv: .*
+        write_priv: .*
+        state: present
 
     - name : give permission
       ansible.builtin.file:

@@ -1,0 +1,22 @@
+- name: configure frontend
+  hosts: frontend
+  tasks: 
+    - name : disable nginx
+      ansible.builtin.command: dnf module disable nginx -y
+
+    - name: enable nginx
+      ansible.builtin.command: dnf module enable nginx:1.24 -y
+
+    - name: nginx install
+      ansible.builtin.dnf :
+         name : nginx
+         state : present
+
+    - name: enable and start nginx
+      ansible.builtin.service:
+         state : restarted
+         enabled : yes
+
+    - name : remove the html folder
+      ansible.builtin.file :
+        
