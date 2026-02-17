@@ -1,5 +1,6 @@
 - name: configure frontend
   hosts: frontend
+  become : yes
   tasks: 
     - name : disable nginx
       ansible.builtin.command: dnf module disable nginx -y
@@ -35,17 +36,17 @@
 
     - name: remove default nginx
       ansible.builtin.file:
-      state: absent
-      path: /etc/nginx/nginx.conf
+       state: absent
+       path: /etc/nginx/nginx.conf
 
     - name: copy nginx.conf
       ansible.builtin.template:
-      src: nginx.conf
-      dest: /etc/nginx/nginx.conf
+       src: nginx.conf
+       dest: /etc/nginx/nginx.conf
 
     - name: resatrt nginx
       ansible.builtin.service:
-      name: nginx
-      state: restarted
-      enabled: yes
+       name: nginx
+       state: restarted
+       enabled: yes
         
