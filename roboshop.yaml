@@ -1,4 +1,7 @@
 #ansible-playbook -i localhost, -e '{"instances":["mongodb","catalogue","cart","redis","mysql","rabbitmq","user","shipping","payment","frontend"]}' roboshop.yaml
+
+##ansible-playbook -i localhost, -e '{"instances":["mongodb","catalogue","cart","redis","mysql","rabbitmq","user","shipping","payment","frontend"]}' -e action=destroy roboshop.yaml
+
 - name : roboshop
   hosts: all
   connection : local

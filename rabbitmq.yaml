@@ -1,0 +1,28 @@
+- name : configure rabbitmq
+  hosts: rabbitmq
+  tasks: 
+    - name: copy the rabbitmq repo
+      ansible.builtin.template:
+        src: rabbitmq.repo
+        dest: /etc/yum.repos.d/rabbitmq.repo
+
+    - name: install rabbitmq
+      ansible.builtin.dnf:
+        name : rabbitmq-server
+        state : present
+
+    - name: enable and start rabbitmq
+      ansible.builtin.service:
+        state : restarted
+        enabled : yes
+
+    - name: useradd 
+      ansible.builtin.user:
+        name : 
+
+    - name : give permission
+      ansible.builtin.file:
+      path: /opt/app/config.ini
+        owner: root
+        group: webapp
+        mode: '0644'
