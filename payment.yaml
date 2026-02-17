@@ -39,10 +39,12 @@
         url : https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
         dest: /tmp/payment.zip
 
-    - name: Install Python dependencies
+    - name: install dependencie
       ansible.builtin.pip:
-        requirements: /app/requirements.txt
+        requirements: requirements.txt
         executable: pip3.9
+      args:
+      chdir: /app
 
     - name: copy payment service
       ansible.builtin.template:
