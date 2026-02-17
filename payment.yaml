@@ -1,5 +1,6 @@
 - name : configire payment
   hosts: payment
+  become: yes
   tasks:
     - name : install python
       ansible.builtin.dnf:
@@ -22,7 +23,7 @@
         path: /app
         state : absent
 
-          - name : make directory
+    - name : make directory
       ansible.builtin.file: 
         path: /app
         state: directory
