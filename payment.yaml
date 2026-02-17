@@ -39,17 +39,15 @@
         url : https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
         dest: /tmp/payment.zip
 
-    - name: install dependencie
+    - name: Install Python dependencies
       ansible.builtin.pip:
-       requirements: requirements.txt
-       executable: pip3.9
-      args:
-        chdir: /app
+        requirements: /app/requirements.txt
+        executable: pip3.9
 
     - name: copy payment service
       ansible.builtin.template:
         src: payment.service
-        dest: /etc/systemd/system
+        dest: /etc/systemd/system/payment.service
 
     - name:  deamon-reload
       ansible.builtin.systemd_service:
@@ -57,5 +55,6 @@
 
     - name: enable and start payment
       ansible.builtin.service:
+        name: payment
         state: restarted
         enabled: yes
