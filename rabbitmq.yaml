@@ -3,7 +3,7 @@
   become: yes
   tasks: 
     - name: copy the rabbitmq repo
-      ansible.builtin.template:
+      ansible.builtin.copy:
         src: rabbitmq.repo
         dest: /etc/yum.repos.d/rabbitmq.repo
 
