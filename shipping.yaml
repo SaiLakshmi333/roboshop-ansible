@@ -41,7 +41,9 @@
 
     - name: unzip the code
       ansible.builtin.unarchive:
-        path : /tmp/shipping.zip
+           src: /tmp/shipping.zip
+           dest: /app
+           remote_src: yes
 
     - name: install dependencies
       ansible.builtin.pip: 
